@@ -22,4 +22,10 @@ public class RssFeedReaderTest {
         System.out.println(read);
     }
 
+    @Test
+    public void should_read_feed_yahoo() {
+        List<FeedResult> read = rssFeedReader.read("http://www.google.com/finance/?output=rss");
+        System.out.println(read);
+    }
+
 }

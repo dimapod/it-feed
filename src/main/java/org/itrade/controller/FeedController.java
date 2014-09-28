@@ -1,6 +1,8 @@
 package org.itrade.controller;
 
+import org.itrade.commons.jms.ITradeMessageType;
 import org.itrade.feed.FeedService;
+import org.itrade.jms.JmsClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,10 @@ public class FeedController {
     @Autowired
     private FeedService feedService;
 
+    @Autowired
+    private JmsClient jmsClient;
+
+
     @RequestMapping(value = "/googlenews/rss", method = RequestMethod.GET)
     @ResponseBody
     public String googleNewsRss() {
@@ -23,5 +29,14 @@ public class FeedController {
         int count = feedService.fetchGoogleNews();
         return "Fetched " + count + " articles";
     }
+
+
+    @RequestMapping(value = "/test/send_dump_jms", method = RequestMethod.GET)
+    @ResponseBody
+    public String testSendDumpJms() {
+        jmsClient.sendMessageToInjection("I am a dump JMS message!", ITradeMessageType.TEXT, "DUMP");
+        return "Dump message sent";
+    }
+
 
 }

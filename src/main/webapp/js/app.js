@@ -9,16 +9,11 @@ angular.module('itrade', [
 
     .config(function ($stateProvider, $urlRouterProvider) {
 
-        $urlRouterProvider.otherwise("/alchemy");
+        $urlRouterProvider.otherwise("/googlenews");
         $stateProvider
-            .state('alchemy', {
-                url: "/alchemy",
-                templateUrl: "js/alchemy/entities.tpl.html"
-            })
-
-            .state('stanford', {
-                url: "/stanford",
-                templateUrl: "js/stanford/stanford.tpl.html"
+            .state('googlenews', {
+                url: "/googlenews",
+                templateUrl: "js/googlenews/googlenews.tpl.html"
             });
 
     });
