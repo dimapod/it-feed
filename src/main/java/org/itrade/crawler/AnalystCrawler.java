@@ -21,17 +21,17 @@ public class AnalystCrawler extends WebCrawler {
 
     private CrawlerHandler crawlerHandler;
 
-    private List<Page> foundPages = new ArrayList<>();
+    private LocalCrawlerData localCrawlerData;
 
     @Override
     public void onStart() {
         crawlerHandler = (CrawlerHandler) myController.getCustomData();
+        localCrawlerData = new LocalCrawlerData();
     }
 
     @Override
     public boolean shouldVisit(WebURL url) {
         String href = url.getURL().toLowerCase();
-        //return !FILTERS.matcher(href).matches() && href.startsWith("http://www.ics.uci.edu/");
         return href.startsWith("http://www.thestreet.com/story/") && ANALYST_ACTIONS.matcher(href).matches() && !FILTERS.matcher(href).matches() ;
     }
 
@@ -55,18 +55,22 @@ public class AnalystCrawler extends WebCrawler {
 */
 
             logger.info("Document found: {}", url);
-            foundPages.add(page);
+            localCrawlerData.add(page);
 
-            crawlerHandler.onDocumentFound(page);
+            //crawlerHandler.onDocumentFound(page);
         }
     }
 
     @Override
     public void onBeforeExit() {
         super.onBeforeExit();
-        //crawlerHandler.onFinished(foundPages);
+        //crawlerHandler.handleDocuments(foundPages);
         // Release reference for GC
         crawlerHandler = null;
-        foundPages.clear();
+    }
+
+    @Override
+    public Object getMyLocalData() {
+        return localCrawlerData;
     }
 }

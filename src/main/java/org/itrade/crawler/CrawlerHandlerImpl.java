@@ -34,7 +34,7 @@ public class CrawlerHandlerImpl implements CrawlerHandler {
     }
 
     @Override
-    public void onFinished(List<Page> foundPages) {
+    public void handleDocuments(List<Page> foundPages) {
         List<String> urls = foundPages.stream()
                 .map(page -> page.getWebURL().getURL())
                 .collect(Collectors.toList());
@@ -45,6 +45,5 @@ public class CrawlerHandlerImpl implements CrawlerHandler {
             logger.debug("Documents found {}. Urls:{}", urls.size(), joinedUrl);
             jmsClient.sendMessageToInjection(joinedUrl, URL, "ANALYST");
         }
-
     }
 }

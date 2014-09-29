@@ -16,9 +16,15 @@ public class CrawlerManager {
     @Autowired
     private AnalystCrawlerFactory analystCrawlerFactory;
 
+    @Autowired
+    private CrawlerHandler crawlerHandler;
+
     public void startNewCrawler() {
         CrawlController crawlController = analystCrawlerFactory.startAnalystCrawlerController(1, 20);
         controllerList.add(crawlController);
+
+        CrawlerWaiter crawlerWaiter = new CrawlerWaiter(crawlController, crawlerHandler);
+        new Thread(crawlerWaiter).start();
     }
 
     public List<CrawlController> getActiveControllers() {
